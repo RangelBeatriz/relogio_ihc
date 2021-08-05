@@ -1,0 +1,146 @@
+<html>
+
+	<head>
+		<title>
+			Relógio IHC
+		</title>
+		<meta http-equiv=”Content-Type” content=”text/html; charset=utf-8″>
+	
+	</head>
+
+
+	<body bgcolor = "white">
+	
+		<font face = "Verdana">
+			<center>
+				<h1>
+					<div id="titulo">Relógio em Tempo Real</div>
+		</font>
+		
+		<center>
+			<h1>
+				<div id="relogio" ></div>
+			</h1>
+		</center>
+		
+		<script>
+		
+			let speech = new SpeechSynthesisUtterance();
+			
+			//A função addZero retorna a concatenação de '0' com um número passado
+			function addZero(x) {
+				if (x < 10) {
+					x = '0' + x;
+				} return x;
+			}
+		
+			setInterval(function(){
+    
+				Horario = new Date();
+				
+				hora = Horario.getHours();
+				minuto = Horario.getMinutes();
+				segundo = Horario.getSeconds();
+			
+				//As horas, os minutos e os segundos, se menores que 10, terão um '0' à esquerda 
+				hora = addZero(hora);
+				minuto = addZero(minuto);
+				segundo = addZero(segundo);
+				
+				//Com o textContent, o horário é inserido na página
+				document.getElementById('relogio').textContent = hora + ':' + minuto + ':' + segundo;
+				
+			},1000);
+			
+			//Função para alterar a cor de fundo da página
+			function MudaCorFundo(cor) {
+				document.body.style.background = cor;
+			}
+				
+			//Função para alterar a cor do relógio
+			function MudaCorHora (cor) {
+				document.getElementById ('relogio').style.color = cor;
+			}
+			
+			//Função para alterar a cor do titúlo na parte superior da página
+			function MudaCorTitulo (cor){
+				document.getElementById ('titulo').style.color = cor;
+			}
+			
+			//Função para alterar a cor da dica na parte inferior da página
+			function MudaCorDica (cor){
+				document.getElementById ('dica').style.color = cor;
+			}
+			
+			//Função para configurar o Modo Claro 
+			function ModoClaro(){
+				MudaCorFundo('white');
+				MudaCorHora('black');
+				MudaCorTitulo('black');
+				MudaCorDica('black');
+			}
+			
+			//Função para configurar o Modo Escuro
+			function ModoEscuro(){
+				MudaCorFundo('black');
+				MudaCorHora('white');
+				MudaCorTitulo('white');
+				MudaCorDica('white');
+			}
+			
+			//Quando a tecla C for pressionada, a página entrará no Modo Claro
+			document.addEventListener('keydown',
+				function(e) {
+					if(e.key == "c" || e.key == "C"){
+						ModoClaro();
+					}
+				});
+				
+			//Quando a tecla E for pressionada, a página entrará no Modo Escuro
+			document.addEventListener('keydown',
+				function(e) {
+					if(e.key == "e" || e.key == "E"){
+						ModoEscuro();
+					}
+				});
+			
+			//Quando a tecla S for pressionada, o horário será emitido por voz
+			document.addEventListener('keydown',
+			function(e) {
+				if(e.key == "s" || e.key == "S"){
+					speech.langh = "pt";
+					voices = window.speechSynthesis.getVoices();
+					speech.voice = voices[0];
+					console.log("oi");
+					speech.text = hora + ":" + minuto;
+					window.speechSynthesis.speak(speech);		
+				}
+			});
+			
+		</script>
+		
+		<button onclick="ModoClaro();">
+			<text>
+				<h3>MODO CLARO
+			</text>
+		</button>
+		
+		<button onclick="ModoEscuro();">
+			<text>
+				<h3>MODO ESCURO
+			</text>
+		</button>
+		
+		<font face="verdana">
+			<h6>
+				<div id="dica">
+					Dica 1: Tecle E / C para alterar o contraste
+					<br><br>
+					Dica 2: Tecle S para ouvir o horário
+				</div>
+			</h6>
+		</font>
+	
+	</body>
+
+</html>
